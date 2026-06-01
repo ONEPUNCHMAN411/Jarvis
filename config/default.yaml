@@ -1,0 +1,130 @@
+jarvis:
+  name: "JARVIS"
+  user_name: ""
+  language: "en"
+  data_dir: "data"
+
+voice:
+  enabled: true
+  wake_word: "hey jarvis"
+  wake_word_sensitivity: 0.6
+  always_listening: false
+  stt_model: "tiny.en"        # tiny.en = fast on CPU; change to medium.en for higher accuracy
+  tts_voice: "en-GB-RyanNeural"
+  tts_speed: "+5%"
+  tts_engine: "edge-tts"
+  input_device: null
+  output_device: null
+
+ai:
+  primary_provider: "groq"
+  fallback_order: ["groq", "ollama", "mistral", "gemini", "openrouter", "llamacpp"]
+  max_memory_messages: 40
+  temperature: 0.65
+  providers:
+    ollama:
+      enabled: true
+      model: "llama3.1:8b"
+      base_url: "http://localhost:11434"
+      timeout: 30
+    groq:
+      enabled: false
+      api_key: ""
+      model: "llama-3.1-70b-versatile"
+    gemini:
+      enabled: false
+      api_key: ""
+      model: "gemini-2.0-flash"
+    openrouter:
+      enabled: false
+      api_key: ""
+      model: "meta-llama/llama-3.1-8b-instruct:free"
+    llamacpp:
+      enabled: false
+      # To use a local model, set model_path to your .gguf file and enable: true
+      # Recommended: Qwen2.5-VL-7B-Instruct-Q4_K_M.gguf (vision + tool calling)
+      #   https://huggingface.co/ggml-org/Qwen2.5-VL-7B-Instruct-GGUF
+      model_path: ""
+      mmproj_path: ""
+      draft_model_path: ""
+      base_url: "http://127.0.0.1:8080/v1"
+      host: "127.0.0.1"
+      port: 8080
+      n_gpu_layers: 99
+      n_gpu_layers_draft: 99
+      context_size: 16384         # vision images consume tokens; 16K is safer than 32K
+      parallel: 2
+      batch_size: 2048
+      ubatch_size: 2048
+      flash_attn: true
+      no_mmap: true
+      mlock: true
+      cont_batching: true
+      prio: 2
+      kv_cache_type_k: "q4_0"
+      kv_cache_type_v: "q4_0"
+      n_cpu_moe: 0
+      # Qwen2.5-VL does NOT have extended thinking — leave these empty/disabled
+      reasoning: ""               # set "off" only for Qwen3 with beellama.cpp
+      reasoning_budget: -1        # -1 = skip flag
+      reasoning_loop_guard: ""    # set "force-close" only for Qwen3 with beellama.cpp
+      # Speculative decoding (disabled)
+      spec_type: ""
+      spec_draft_n_max: 3
+      spec_draft_p_min: 0.75
+      spec_dflash_cross_ctx: 512
+
+control:
+  browser: "chromium"
+  confirm_destructive: true
+  allowed_directories: []
+
+watcher:
+  enabled: false
+  interval_seconds: 15
+  provider: "auto"
+  quiet_apps:
+    - "zoom"
+    - "teams"
+    - "discord"
+    - "netflix"
+    - "youtube"
+  max_suggestions_per_hour: 12
+
+mcp:
+  servers: []
+  # Example:
+  # - name: filesystem
+  #   command: npx
+  #   args: ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users"]
+  #   env: {}
+  #   enabled: true
+
+plugins:
+  email_enabled: false
+  telegram_enabled: false
+  spotify_enabled: false
+  image_gen_enabled: true
+
+ui:
+  show_overlay: true
+  chat_hotkey: "ctrl+shift+j"
+  theme: "dark"
+
+startup:
+  auto_start: true
+  start_minimized: true
+
+logging:
+  level: "INFO"
+  file: "data/logs/jarvis.log"
+  max_size: "10MB"
+  retention: 7
+
+# openwakeword is optional; graceful degradation when absent
+
+# max_memory_messages lowered; old value caused 429s on smaller context models
+
+# tts_speed adjusted for conversational pace
+
+# log retention period

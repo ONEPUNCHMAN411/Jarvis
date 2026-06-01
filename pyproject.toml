@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jarvis*"]
+
+[project]
+name = "jarvis"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=0.50.0",
+    "cryptography",
+    "aiohttp>=3.11",
+    "aiosqlite",
+    "beautifulsoup4",
+    "edge-tts",
+    "feedparser",
+    "faster-whisper",
+    "google-api-python-client",
+    "google-auth-httplib2",
+    "google-auth-oauthlib",
+    "google-genai",
+    "groq",
+    "httpx",
+    "loguru",
+    "mss",
+    "numpy",
+    "ollama",
+    "openai",
+    "pillow",
+    "playwright",
+    "pydantic>=2.0",
+    "pywinauto",
+    "PyQt6>=6.0",
+    "pyautogui",
+    "pyperclip",
+    "psutil",
+    "pynput",
+    "python-dotenv",
+    "pywin32",
+    "pyyaml",
+    "screen-brightness-control",
+    "silero-vad",
+    "sounddevice",
+    "soundfile",
+    "tiktoken",
+    "torch",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+desktop-audio = [
+    "pyaudiowpatch",
+]
+voice = [
+    "faster-whisper",
+    "sounddevice",
+    "silero-vad",
+    "openwakeword",
+    "soundfile",
+    "torch",
+    "edge-tts",
+    "numpy",
+]
+gpu = [
+    "torch",
+]
+
+[project.scripts]
+jarvis = "jarvis.__main__:main"
