@@ -199,7 +199,7 @@ def _make_orb_class():
             self.compact = compact
             fmt = QSurfaceFormat()
             fmt.setAlphaBufferSize(8)
-            fmt.setSamples(4)
+            fmt.setSamples(2)
             self.setFormat(fmt)
             self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
             self.setAttribute(Qt.WidgetAttribute.WA_AlwaysStackOnTop, True)
@@ -229,7 +229,7 @@ def _make_orb_class():
 
             self._timer = QTimer(self)
             self._timer.timeout.connect(self._tick)
-            self._timer.start(16)  # 60 fps
+            self._timer.start(40)  # ~25 fps — halves GPU load vs 60 fps
 
         # ── Public API (same as 2D orb) ────────────────────────────
         def set_status(self, status: str) -> None:
