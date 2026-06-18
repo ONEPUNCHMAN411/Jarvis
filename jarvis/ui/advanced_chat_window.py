@@ -4947,7 +4947,7 @@ class AdvancedChatWindow(QMainWindow):
         except ImportError:
             if hasattr(self, "_wake_word_status_lbl"):
                 self._wake_word_status_lbl.setText(
-                    "Wake word unavailable — openwakeword not installed. "
+                    "Wake word requires openwakeword — not installed. "
                     "Run: pip install openwakeword"
                 )
                 self._wake_word_status_lbl.show()
