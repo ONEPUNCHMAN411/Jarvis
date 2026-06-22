@@ -18,7 +18,7 @@ except Exception:
     _TK_ENC = None
 
 class ConversationMemory:
-    def __init__(self, db_path: str, max_messages: int = 50):
+    def __init__(self, db_path: str, max_messages: int = 40):
         self.db_path = Path(db_path)
         self.max_messages = max_messages
         self._messages: list[Message] = []
