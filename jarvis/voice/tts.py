@@ -12,7 +12,7 @@ except ImportError:
     _PYTTSX3_AVAILABLE = False
 
 class TTS:
-    def __init__(self, voice: str = "en-GB-RyanNeural", rate: str = "+8%", pitch: str = "+0Hz"):
+    def __init__(self, voice: str = "en-GB-RyanNeural", rate: str = "+5%", pitch: str = "+0Hz"):
         self.voice = voice
         self.rate = rate
         self.pitch = pitch
