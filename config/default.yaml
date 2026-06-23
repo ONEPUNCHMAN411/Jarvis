@@ -119,7 +119,7 @@ logging:
   level: "INFO"
   file: "data/logs/jarvis.log"
   max_size: "10MB"
-  retention: 7
+  retention: 14
 
 # openwakeword is optional; graceful degradation when absent
 
@@ -127,4 +127,4 @@ logging:
 
 # tts_speed adjusted for conversational pace
 
-# log retention period
+# 14 days retention; 7 was too short for debugging production issues
