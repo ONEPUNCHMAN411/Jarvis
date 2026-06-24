@@ -2,7 +2,7 @@
 
 # JARVIS
 
-Voice assistant for Windows 11. Talks back, controls your desktop, runs real browser automation, and routes to whatever AI provider you have configured.
+Voice assistant for Windows 11. Talks back, controls your desktop, runs real browser automation,, and routes to whatever AI provider you have configured.
 
 [![Download](https://img.shields.io/badge/Download-v1-8B7CFF?style=for-the-badge&logo=windows)](https://github.com/ONEPUNCHMAN411/Jarvis/releases/latest)
 [![Python](https://img.shields.io/badge/Python%203.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
