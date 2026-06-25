@@ -166,7 +166,7 @@ class GeminiProvider(LLMProvider):
         tool_calls: list[ToolCall] = []
 
         queue: asyncio.Queue = asyncio.Queue()
-        loop = asyncio.get_running_loop()
+        loop = asyncio.get_running_loop()  # safe in async context
 
         def _stream_sync():
             try:
