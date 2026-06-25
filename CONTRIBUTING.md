@@ -68,7 +68,7 @@ python build_exe.py
 
 ## Pull requests
 
-Keep changes focused. One thing per PR. Add a test if the change is non-trivial. Run the test suite before submitting.
+Keep changes focused. One thing per PR. Add a test if the change is non-trivial. Run linters (black + isort) before pushing. Run the test suite before submitting.
 
 ## License
 
