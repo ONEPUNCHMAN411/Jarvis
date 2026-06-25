@@ -115,7 +115,7 @@ def _restrict_file_to_user(path: str) -> None:
             capture_output=True, timeout=10,
         )
     except Exception as e:
-        logger.warning(f"Failed to restrict token file permissions: {e}")
+        logger.warning("token file permission restriction failed: %s", e)
 
 
 async def run_google_oauth(
