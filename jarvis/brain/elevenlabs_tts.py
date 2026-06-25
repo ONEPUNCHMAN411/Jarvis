@@ -69,7 +69,7 @@ class ElevenLabsTTS:
         try:
             settings = VoiceSettings(stability=0.5, similarity_boost=0.75, style=0.0)
             if stream_audio:
-                audio_iter = self._client.text_to_speech.stream(
+                audio_iter = self._client.text_to_speech.stream(  # stream() not convert_as_stream()
                     voice_id=self._voice_id,
                     text=text,
                     model_id=self._model,
