@@ -26,7 +26,7 @@ jarvis/plugins/   Plugin system
 python -m pytest tests/ -v
 ```
 
-Some tests need hardware (mic, GPU) and are skipped in CI. That's fine, just don't break the ones that do run.
+Some tests need hardware (mic, GPU) and are skipped on machines that lack them.
 
 ## Adding a provider
 
