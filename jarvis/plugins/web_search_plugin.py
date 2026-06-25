@@ -61,7 +61,7 @@ class WebSearchPlugin(Plugin):
                 response.raise_for_status()
 
                 soup = BeautifulSoup(response.text, "html.parser")
-                results = []
+                results: list[dict] = []
 
                 for result in soup.find_all("div", class_="g")[:5]:
                     title_elem = result.find("h3")
