@@ -7,7 +7,6 @@ from loguru import logger
 
 
 def _decode_audio(audio_bytes: bytes) -> tuple[np.ndarray, int]:
-    """Decode audio bytes (MP3/WAV/etc) to float32 PCM via PyAV with soundfile fallback."""
     try:
         import av
         container = av.open(io.BytesIO(audio_bytes))
@@ -15,7 +14,6 @@ def _decode_audio(audio_bytes: bytes) -> tuple[np.ndarray, int]:
         frames = []
         for frame in container.decode(stream):
             arr = frame.to_ndarray()
-            # fltp (float planar) is already normalized [-1, 1]; s16p is int16
             if arr.dtype == np.int16:
                 frames.append(arr.astype(np.float32) / 32768.0)
             else:
