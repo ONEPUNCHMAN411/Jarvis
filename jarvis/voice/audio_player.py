@@ -1,8 +1,29 @@
 import asyncio
 import io
+import numpy as np
 import sounddevice as sd
 import soundfile as sf
 from loguru import logger
+
+
+def _decode_audio(audio_bytes: bytes) -> tuple[np.ndarray, int]:
+    """Decode audio bytes (MP3/WAV/etc) to float32 PCM via PyAV with soundfile fallback."""
+    try:
+        import av
+        container = av.open(io.BytesIO(audio_bytes))
+        stream = container.streams.audio[0]
+        frames = []
+        for frame in container.decode(stream):
+            frames.append(frame.to_ndarray())
+        container.close()
+        data = np.concatenate(frames, axis=1).T.astype(np.float32) / 32768.0
+        if data.ndim == 2 and data.shape[1] == 1:
+            data = data[:, 0]
+        return data, stream.sample_rate
+    except Exception:
+        data, sr = sf.read(io.BytesIO(audio_bytes), dtype="float32")
+        return data, sr
+
 
 class AudioPlayer:
     def __init__(self, sample_rate: int = 24000, device: int | None = None):
@@ -16,10 +37,7 @@ class AudioPlayer:
             logger.debug(f"Playing audio ({len(audio_bytes)} bytes)")
             self.is_playing = True
 
-            audio_buffer = io.BytesIO(audio_bytes)
-            data, samplerate = await asyncio.to_thread(
-                sf.read, audio_buffer, dtype="float32"
-            )
+            data, samplerate = await asyncio.to_thread(_decode_audio, audio_bytes)
 
             await asyncio.to_thread(
                 sd.play, data, samplerate=samplerate, device=self.device, blocking=True
