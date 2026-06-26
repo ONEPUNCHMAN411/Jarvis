@@ -19,9 +19,12 @@ class VAD:
 
     async def initialize(self) -> None:
         if _HAS_TORCH:
-            await self._init_torch()
-        else:
-            await self._init_onnx()
+            try:
+                await self._init_torch()
+                return
+            except Exception as exc:
+                logger.warning(f"Silero torch init failed ({exc}), trying ONNX fallback...")
+        await self._init_onnx()
 
     async def _init_torch(self) -> None:
         logger.info("Loading Silero VAD model (torch)...")
