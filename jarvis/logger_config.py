@@ -15,12 +15,13 @@ def setup_logging(log_dir: str | None = None):
     logger.remove()
 
     # Console output (errors and above)
-    logger.add(
-        sys.stderr,
-        level="DEBUG",
-        format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}:{function}:{line}</cyan> - <level>{message}</level>",
-        colorize=True,
-    )
+    if sys.stderr is not None:
+        logger.add(
+            sys.stderr,
+            level="DEBUG",
+            format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}:{function}:{line}</cyan> - <level>{message}</level>",
+            colorize=True,
+        )
 
     # File output - all messages
     logger.add(
