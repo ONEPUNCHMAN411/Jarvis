@@ -57,7 +57,7 @@ class AlertEngine:
     def __init__(
         self,
         interval: int = 30,
-        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify_fn: Callable[[str, str], None] | None = None,
     ):
         self._interval = interval
         self._alerts: dict[str, Alert] = {}

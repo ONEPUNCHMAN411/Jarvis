@@ -76,7 +76,7 @@ class TodoStore:
         text: str,
         priority: str = "normal",
         due: str = "",
-        tags: Optional[list[str]] = None,
+        tags: list[str] | None = None,
     ) -> Todo:
         with self._lock:
             todo = Todo(

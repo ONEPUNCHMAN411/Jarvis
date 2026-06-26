@@ -28,7 +28,7 @@ _AVAILABLE = _EASY_AVAILABLE or _TESS_AVAILABLE
 class OCREngine:
     """Extract text from image files using EasyOCR or Tesseract."""
 
-    def __init__(self, languages: Optional[list[str]] = None):
+    def __init__(self, languages: list[str] | None = None):
         self._languages = languages or ["en"]
         self._reader = None
         self._reader_lock = threading.Lock()
@@ -83,7 +83,7 @@ _instance: OCREngine | None = None
 _lock = threading.Lock()
 
 
-def get_ocr_engine(languages: Optional[list[str]] = None) -> OCREngine:
+def get_ocr_engine(languages: list[str] | None = None) -> OCREngine:
     global _instance
     if _instance is None:
         with _lock:

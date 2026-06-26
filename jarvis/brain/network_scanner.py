@@ -76,7 +76,7 @@ def check_port(host: str, port: int, timeout: float = 2.0) -> dict:
 
 def scan_ports(
     host: str,
-    ports: Optional[list[int]] = None,
+    ports: list[int] | None = None,
     timeout: float = 1.5,
 ) -> list[dict]:
     """Scan a list of ports on a host using threads."""
