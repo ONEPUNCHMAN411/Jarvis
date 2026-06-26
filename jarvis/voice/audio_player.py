@@ -14,9 +14,14 @@ def _decode_audio(audio_bytes: bytes) -> tuple[np.ndarray, int]:
         stream = container.streams.audio[0]
         frames = []
         for frame in container.decode(stream):
-            frames.append(frame.to_ndarray())
+            arr = frame.to_ndarray()
+            # fltp (float planar) is already normalized [-1, 1]; s16p is int16
+            if arr.dtype == np.int16:
+                frames.append(arr.astype(np.float32) / 32768.0)
+            else:
+                frames.append(arr.astype(np.float32))
         container.close()
-        data = np.concatenate(frames, axis=1).T.astype(np.float32) / 32768.0
+        data = np.concatenate(frames, axis=1).T
         if data.ndim == 2 and data.shape[1] == 1:
             data = data[:, 0]
         return data, stream.sample_rate
