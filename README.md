@@ -1,8 +1,8 @@
 <div align="center">
-(I tried to write as much of the main code myself but the installers, setup files and all are pretty much ai because Im not really good in that field. I tried to limit my use as much as possible.)
+(I tried to write as much of the main code myself but the installers, setup files and all are pretty much ai because Im not really good in that field. I tried to limit my use as much as possible. Expect to see some vibe coding on some of those files but the rest of the code is still original.)
 # JARVIS
 
-Voice assistant for windows 11 inspired from Iron Man. Conversational with voice meaning you can talk to it for feedback, also has various plugins and features for round use by users.
+Voice assistant for windows 11 inspired from Iron Man. Conversational with voice meaning you can talk to it for feedback, also has various plugins and features for round use by users. The actual app is run fully local out of the box unless you configure it otherwise (data still flows to ai providers or plugins)
 
 [![Download](https://img.shields.io/badge/Download-v1-8B7CFF?style=for-the-badge&logo=windows)](https://github.com/ONEPUNCHMAN411/Jarvis/releases/latest)
 [![Python](https://img.shields.io/badge/Python%203.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
@@ -48,11 +48,11 @@ First launch runs a setup wizard choose your options, get an api key and start u
 
 - Conversational voice and feedback meaning its just like a human but AI!
 - Full desktop control automation meaning it can click, zoom, type and do much more for your tasks!
-- Playwright browser automation meaning it can read sites and gather data
+- Playwright browser automation meaning it can read sites and gather data to generate better responses
 - 50+ built-in tools covering web search, file management, system info, news, and much more
-- Plugins for Gmail, Google Calendar, task scheduling, and more
+- Plugins for Gmail, Google Calendar, task scheduling, and more which gives you the "Jarvis" feel
 - Switch providers easily by enabling/disabing providers
-- Wake word detection if you install openwakeword (experimental, works fine with a decent USB mic but unreliable with a laptop mic)
+- Wake word detection (experimental, works fine with a decent USB mic but unreliable with a laptop mic, can work better with laptop if no noise and close to computer)
 
 ---
 
@@ -71,11 +71,11 @@ Lots of choices for providers
 
 Voice runs faster whisper (with options to change to medium and high whisper) with Silero VAD gating it. With it, transcription only runs when someone's actually talking and doesent detect random background noise
 
-Computer control goes through the Windows UI Automation accessibility tree instead of pixel coordinates. Most LLMs can't see your screen, they need structured data about what's in each window. The accessibility tree gives that without needing a vision model. Vision is still available as a fallback if the tree doesn't expose what you need.
+Computer control goes through the Windows UI Automation accessibility tree instead of pixel coordinates. Most LLMs can't see your screen (dont have vision support), they need structured data descriptions about what's in each window. The accessibility tree gives that without needing a vision model. Vision is still available as a fallback if the tree doesn't expose what you need. This gives full support for computer use for all models and users regardless of their choice. (Expect weird and buggy things as some models genuinly just cant comprehend an image description) Reccomended to use claude, gemini, openai, or vision supported models if you plan on using this heavily.
 
 The orb is a 3d sphere with GLSL. It was running at 60fps with 4x MSAA and 5 noise octaves, which ate GPU headroom the STT model needed and was very buggy. Dropped to 25fps, 2x MSAA, 3 octaves. Still looks the same, uses a fraction of the compute (though it doesent look as smooth).
 
-Provider routing tries your primary, falls back down a configured chain when the health check fails. So if Groq rate limits you it moves to the next provider instead of throwing an error. (if all providers fail, expect the orb to not move when you talk)
+Provider routing tries your primary, falls back down a configured chain when the health check fails. So if Groq rate limits you it moves to the next provider instead of throwing an error. (if all providers fail, expect the orb to not move when you talk, and also expect an error to be thrown)
 
 ---
 
