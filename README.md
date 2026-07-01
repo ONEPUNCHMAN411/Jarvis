@@ -1,5 +1,5 @@
 <div align="center">
-
+(I tried to write as much of the main code myself but the installers, setup files and all are pretty much ai because Im not really good in that field. I tried to limit my use as much as possible.)
 # JARVIS
 
 Voice assistant for Windows 11. Talks back, controls your desktop, runs real browser automation,, and routes to whatever AI provider you have configured.
