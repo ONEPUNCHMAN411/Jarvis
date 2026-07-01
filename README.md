@@ -2,7 +2,7 @@
 (I tried to write as much of the main code myself but the installers, setup files and all are pretty much ai because Im not really good in that field. I tried to limit my use as much as possible.)
 # JARVIS
 
-Voice assistant for Windows 11. Talks back, controls your desktop, runs real browser automation,, and routes to whatever AI provider you have configured.
+Voice assistant for windows 11 inspired from Iron Man. Conversational with voice meaning you can talk to it for feedback, also has various plugins and features for round use by users.
 
 [![Download](https://img.shields.io/badge/Download-v1-8B7CFF?style=for-the-badge&logo=windows)](https://github.com/ONEPUNCHMAN411/Jarvis/releases/latest)
 [![Python](https://img.shields.io/badge/Python%203.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
@@ -18,16 +18,16 @@ Voice assistant for Windows 11. Talks back, controls your desktop, runs real bro
 
 ## What you need
 
-- Windows 11
-- Python 3.12+
-- 8 GB RAM (16 if you want local models) (GPU with at least 4 GB VRAM recommended)
-- An API key for at least one provider (Groq is free, no card required)
+- Windows 11 (may work on windows 10 not tested)
+- Python 3.12+ (expect installer to fail without this)
+- 8 GB RAM (16 if you want local models and chrome tabs) (GPU with at least 4 GB VRAM recommended if you want the fast response)
+- An API key for at least one provider (Groq is free, gemini is free, mistral free) anything works
 
 ---
 
 ## Install
 
-Installer is ~1.8 GB. CUDA is bundled, that's why it's big.
+Installer is about 2gb but it has cuda so thats reasonable
 
 **[JARVIS-Setup-v1.exe](https://github.com/ONEPUNCHMAN411/Jarvis/releases/latest)**
 
@@ -40,52 +40,48 @@ pip install -e .
 python -m jarvis
 ```
 
-First launch runs a setup wizard. Pick Groq, paste your key, done.
+First launch runs a setup wizard choose your options, get an api key and start using!
 
 ---
 
 ## What it does
 
-- Talk to it, it talks back. Uses faster-whisper on CUDA, Edge TTS output, Silero VAD so it doesn't transcribe silence and fan noise
-- Full desktop control: clicks, keyboard, drag-drop, screenshots, clipboard, app launcher, volume, brightness
-- Playwright browser automation against real sites with JavaScript, not a scraping wrapper
-- 50+ built-in tools covering web search, file management, system info, news
+- Conversational voice and feedback meaning its just like a human but AI!
+- Full desktop control automation meaning it can click, zoom, type and do much more for your tasks!
+- Playwright browser automation meaning it can read sites and gather data
+- 50+ built-in tools covering web search, file management, system info, news, and much more
 - Plugins for Gmail, Google Calendar, task scheduling, and more
-- Switch providers live from the chat header, no restart needed
+- Switch providers easily by enabling/disabing providers
 - Wake word detection if you install openwakeword (experimental, works fine with a decent USB mic but unreliable with a laptop mic)
 
 ---
 
 ## Providers
 
-Start with Groq. It's free and the latency is good.
+Lots of choices for providers
 
-| Provider | Cost | Notes |
-|----------|------|-------|
-| Groq | Free tier | Llama 3.3 70B, fast |
-| Gemini | Free tier | Google auth, no API key needed |
-| Mistral | Pay per use | Solid at code |
-| OpenAI | Pay per use | GPT-4o |
-| Ollama | Free | Fully local, nothing sent out |
-| OpenRouter | Pay per use | 50+ models in one place |
-
+- Grok: Free and uses llama 70B
+- Gemini: Free but hard to get api (buggy)
+- Mistral: free but small model (7b) and rate limits
+- Claude: Pay as you go, high quality
+- OpenAI Pay as you go, high quality
 ---
 
 ## How it works
 
-Voice runs faster-whisper with Silero VAD gating it. Without VAD the STT model fires on silence and fan noise, latency adds up fast. With it, transcription only runs when someone's actually talking.
+Voice runs faster whisper (with options to change to medium and high whisper) with Silero VAD gating it. With it, transcription only runs when someone's actually talking and doesent detect random background noise
 
 Computer control goes through the Windows UI Automation accessibility tree instead of pixel coordinates. Most LLMs can't see your screen, they need structured data about what's in each window. The accessibility tree gives that without needing a vision model. Vision is still available as a fallback if the tree doesn't expose what you need.
 
-The orb is a raymarched GLSL sphere in a QOpenGLWidget. It was running at 60fps with 4x MSAA and 5 noise octaves, which ate GPU headroom the STT model needed. Dropped to 25fps, 2x MSAA, 3 octaves. Still looks the same, uses a fraction of the compute.
+The orb is a 3d sphere with GLSL. It was running at 60fps with 4x MSAA and 5 noise octaves, which ate GPU headroom the STT model needed and was very buggy. Dropped to 25fps, 2x MSAA, 3 octaves. Still looks the same, uses a fraction of the compute (though it doesent look as smooth).
 
-Provider routing tries your primary, falls back down a configured chain when the health check fails. So if Groq rate limits you it moves to the next provider instead of throwing an error.
+Provider routing tries your primary, falls back down a configured chain when the health check fails. So if Groq rate limits you it moves to the next provider instead of throwing an error. (if all providers fail, expect the orb to not move when you talk)
 
 ---
 
 ## Config
 
-Most settings live in the Settings panel inside the app. For the few things not exposed there, the base config is at `config/default.yaml` inside the install folder. The app also writes runtime settings to `%USERPROFILE%\.jarvis\settings.json`.
+Most settings live in the Settings panel inside the app. Others panels like mcp, ssh, do exist for extra configuration. (If you have any configuration questions please fill out the report bug form and send it to me on slack or via my email for github) For the few things not exposed there, the base config is at `config/default.yaml` inside the install folder. The app also writes runtime settings to `%USERPROFILE%\.jarvis\settings.json`.
 
 ```yaml
 # config/default.yaml - notable options
@@ -112,41 +108,12 @@ ai:
 
 ---
 
-## Local API
-
-JARVIS exposes a local HTTP API on `localhost:8765` so you can drive it programmatically without touching the UI.
-
-```bash
-# Check if JARVIS is running and ready
-curl http://localhost:8765/status
-
-# Send a message (same as typing in the chat)
-curl -s -X POST http://localhost:8765/chat \
-     -H "Content-Type: application/json" \
-     -d '{"text": "what time is it"}'
-
-# Call a tool directly by name
-curl -s -X POST http://localhost:8765/tool \
-     -H "Content-Type: application/json" \
-     -d '{"tool": "show_panel", "args": {"panel": "todo"}}'
-
-# List all available tool names
-curl http://localhost:8765/tools
-```
-
-The port can be changed in Settings → Advanced, or by editing `%USERPROFILE%\.jarvis\settings.json`:
-
-```json
-{ "local_api_port": 8766 }
-```
-
----
 
 ## Build
 
 ```bash
 python build_exe.py
-# outputs dist/JARVIS.exe (~1.8 GB with CUDA)
+# outputs dist/JARVIS.exe (~1.8 GB with CUDA sometimes bigger depending on version)
 ```
 
 ---
@@ -161,6 +128,6 @@ python build_exe.py
 
 ---
 
-MIT. Built for [Hack Club Stardance](https://stardance.hackclub.com) by Venkata.M.
+MIT License. Built for [Hack Club Stardance](https://stardance.hackclub.com) by Venkata.M.
 
 
