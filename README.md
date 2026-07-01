@@ -1,5 +1,5 @@
 <div align="center">
-(I tried to write as much of the main code myself but the installers, setup files and all are pretty much ai because Im not really good in that field. I tried to limit my use as much as possible. Expect to see some vibe coding on some of those files but the rest of the code is still original.)
+(I tried to write as much of the main code myself but the installers, setup files and all are pretty much ai because Im not really good in that field. I tried to limit my use as much as possible. Expect to see some vibe coding on some of those files but the rest of the code is still original. Also expect some comments on more complex files like app.py)
 # JARVIS
 
 Voice assistant for windows 11 inspired from Iron Man. Conversational with voice meaning you can talk to it for feedback, also has various plugins and features for round use by users. The actual app is run fully local out of the box unless you configure it otherwise (data still flows to ai providers or plugins)
