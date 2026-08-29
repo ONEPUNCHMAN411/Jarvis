@@ -11,7 +11,13 @@ echo This will enable JARVIS to start automatically on Windows boot.
 echo.
 
 REM Get the directory where this script is located
-set SCRIPT_DIR=%~dp0
+set SCRIPT_DIR=%~dp0echo ================================
+echo JARVIS Startup Setup
+echo ================================
+echo.
+echo This will enable JARVIS to start automatically on Windows boot.
+echo.
+REM Get the directory where this script is located
 set PYTHON_CMD=python
 
 REM Run the setup script
